@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>주문 데이터 업로드</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="config.js"></script>
+<style>
+  :root{
+    --ink:#1b2430; --ink-soft:#5b6674; --line:#e2e6eb;
+    --bg:#f6f7f9; --panel:#ffffff; --accent:#2f5d50; --accent-soft:#eaf1ee;
+    --danger:#b3452c; --radius:10px;
+    font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);min-height:100vh;padding:32px 20px 80px;}
+  .wrap{max-width:720px;margin:0 auto;}
+  header{margin-bottom:28px;}
+  header .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:6px;}
+  h1{font-size:24px;margin:0 0 4px;font-weight:800;}
+  header p{margin:0;color:var(--ink-soft);font-size:14px;}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:18px;}
+  .drop{
+    border:2px dashed var(--line); border-radius:var(--radius);
+    padding:36px 20px; text-align:center; color:var(--ink-soft);
+    transition:border-color .15s, background .15s; cursor:pointer;
+  }
+  .drop.dragover{border-color:var(--accent);background:var(--accent-soft);}
+  .drop input{display:none;}
+  .drop .filename{margin-top:10px;font-weight:600;color:var(--ink);}
+  .options{display:flex;align-items:center;gap:8px;margin-top:16px;font-size:14px;color:var(--ink-soft);}
+  .options input{width:16px;height:16px;}
+  .actions{display:flex;gap:10px;margin-top:18px;}
+  button{
+    padding:12px 20px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;
+    background:var(--accent);color:#fff;transition:opacity .15s;
+  }
+  button:hover{opacity:.9;}
+  button:disabled{opacity:.5;cursor:default;}
+  .log{
+    margin-top:16px; background:#0f1a17; color:#c9e6da; font-size:13px;
+    border-radius:8px; padding:14px; max-height:260px; overflow-y:auto;
+    white-space:pre-wrap; font-family:"SFMono-Regular",Menlo,Consolas,monospace; display:none;
+  }
+  .progress{height:8px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:14px;display:none;}
+  .progress .bar{height:100%;width:0%;background:var(--accent);transition:width .2s;}
+  footer{margin-top:30px;font-size:12px;color:var(--ink-soft);text-align:center;}
+  a.nav{color:var(--accent);text-decoration:none;font-size:13px;font-weight:600;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;">
+    <div>
+      <div class="eyebrow">Internal Tool</div>
+      <h1>주문 데이터 업로드</h1>
+      <p>발주서 형식의 엑셀 파일을 업로드하면 Supabase DB에 저장됩니다. · <a class="nav" href="index.html">조회 페이지로 이동</a></p>
+    </div>
+    <div id="userBar" style="display:flex;align-items:center;gap:10px;margin-top:4px;"></div>
+  </header>
+
+  <div class="panel">
+    <div class="drop" id="dropZone">
+      <div>엑셀 파일(.xlsx)을 이곳에 드래그하거나 클릭해서 선택하세요</div>
+      <div class="filename" id="fileName"></div>
+      <input type="file" id="fileInput" accept=".xlsx,.xls" />
+    </div>
+
+    <div class="options">
+      <input type="checkbox" id="replaceMode" />
+      <label for="replaceMode">업로드 전 기존 데이터 전체 삭제 후 새로 등록 (전체 교체)</label>
+    </div>
+
+    <div class="actions">
+      <button id="uploadBtn" disabled>업로드 시작</button>
+    </div>
+
+    <div class="progress" id="progressWrap"><div class="bar" id="progressBar"></div></div>
+    <div class="log" id="log"></div>
+  </div>
+
+  <footer>Powered by Supabase</footer>
+</div>
+
+<script>
+/* =========================================================
+   CONFIG — SUPABASE_URL / KEY는 config.js에서 관리합니다.
+   ========================================================= */
+const TABLE_NAME = "orders";
+const SHEET_NAME = "발주서"; // 데이터가 들어있는 시트명 (없으면 첫 번째 시트 사용)
+const BATCH_SIZE = 500;      // 한 번에 insert할 행 수
+/* ========================================================= */
+
+// 엑셀 헤더 텍스트 -> DB 컬럼명 매핑
+const HEADER_MAP = {
+  "출고일": "shipped_date",
+  "주문번호(사방넷)": "order_no_sabangnet",
+  "주문번호(쇼핑몰)": "order_no_mall",
+  "쇼핑몰": "mall",
+  "수령인": "receiver_name",
+  "택배사": "courier",
+  "운송장번호": "tracking_no",
+  "받는분연락처": "receiver_phone",
+  "받는분기타연락처": "receiver_phone2",
+  "주소": "address",
+  "배송메세지": "delivery_message",
+  "상품명": "product_name",
+  "수량": "quantity",
+  "결제금액": "payment_amount",
+  "큐텐(한글상품명)": "product_name_qoo10",
+  "바코드": "barcode",
+  "큐텐바코드": "qoo10_barcode",
+  "상품코드": "product_code",
+  "쇼핑몰(참고용)": "mall_ref",
+  "상품컬러코드": "product_color_code",
+  "상품명(수집)": "product_name_collected",
+  "옵션(수집)": "option_collected",
+  "주문자명": "orderer_name",
+  "구분": "category",
+  "주문일시": "order_datetime",
+  "주문자 연락처(1)": "orderer_phone1",
+  "주문자 연락처(2)": "orderer_phone2",
+  "미출고": "not_shipped",
+};
+const NUMERIC_KEYS = new Set(["quantity", "payment_amount"]);
+
+(async () => {
+  const session = await requireAuth();
+  if (!session) return; // requireAuth already redirects to login.html
+  renderUserBar(session, document.getElementById("userBar"));
+})();
+
+const dropZone = document.getElementById("dropZone");
+const fileInput = document.getElementById("fileInput");
+const fileNameEl = document.getElementById("fileName");
+const uploadBtn = document.getElementById("uploadBtn");
+const replaceMode = document.getElementById("replaceMode");
+const logEl = document.getElementById("log");
+const progressWrap = document.getElementById("progressWrap");
+const progressBar = document.getElementById("progressBar");
+
+let selectedFile = null;
+
+dropZone.addEventListener("click", () => fileInput.click());
+dropZone.addEventListener("dragover", (e) => { e.preventDefault(); dropZone.classList.add("dragover"); });
+dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+dropZone.addEventListener("drop", (e) => {
+  e.preventDefault();
+  dropZone.classList.remove("dragover");
+  if (e.dataTransfer.files.length) setFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener("change", () => {
+  if (fileInput.files.length) setFile(fileInput.files[0]);
+});
+
+function setFile(file){
+  selectedFile = file;
+  fileNameEl.textContent = file.name;
+  uploadBtn.disabled = false;
+}
+
+function log(msg){
+  logEl.style.display = "block";
+  logEl.textContent += msg + "\n";
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+function setProgress(pct){
+  progressWrap.style.display = "block";
+  progressBar.style.width = pct + "%";
+}
+
+uploadBtn.addEventListener("click", async () => {
+  if (!selectedFile) return;
+  uploadBtn.disabled = true;
+  logEl.textContent = "";
+  setProgress(0);
+
+  try{
+    log(`파일 읽는 중: ${selectedFile.name}`);
+    const buf = await selectedFile.arrayBuffer();
+    const wb = XLSX.read(buf, { type: "array" });
+
+    const sheetName = wb.SheetNames.includes(SHEET_NAME) ? SHEET_NAME : wb.SheetNames[0];
+    log(`시트 사용: ${sheetName}`);
+    const ws = wb.Sheets[sheetName];
+    const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: null });
+
+    if (!rows.length){
+      log("데이터가 없습니다.");
+      uploadBtn.disabled = false;
+      return;
+    }
+
+    const headerRow = rows[0].map(h => (h === null ? "" : String(h).trim()));
+    const dataRows = rows.slice(1).filter(r => r.some(cell => cell !== null && cell !== ""));
+
+    log(`총 ${dataRows.length}건의 데이터 확인됨`);
+
+    // 헤더 -> DB 컬럼 인덱스 매핑
+    const colMap = []; // colMap[i] = dbKey or null
+    headerRow.forEach((h, i) => {
+      colMap[i] = HEADER_MAP[h] || null;
+    });
+
+    const unmapped = headerRow.filter((h, i) => h && !colMap[i]);
+    if (unmapped.length){
+      log(`⚠ 매핑되지 않은 열(무시됨): ${unmapped.join(", ")}`);
+    }
+
+    const records = dataRows.map(r => {
+      const rec = {};
+      colMap.forEach((key, i) => {
+        if (!key) return;
+        let val = r[i];
+        if (val === undefined) val = null;
+        if (NUMERIC_KEYS.has(key)){
+          const n = Number(val);
+          val = (val === null || val === "" || isNaN(n)) ? null : n;
+        } else if (val !== null) {
+          val = String(val);
+        }
+        rec[key] = val;
+      });
+      return rec;
+    });
+
+    if (replaceMode.checked){
+      log("기존 데이터 삭제 중...");
+      const { error: delErr } = await supabaseClient.from(TABLE_NAME).delete().gte("id", 0);
+      if (delErr) throw delErr;
+      log("기존 데이터 삭제 완료");
+    }
+
+    log(`업로드 시작 (배치 크기: ${BATCH_SIZE})`);
+    let uploaded = 0;
+    for (let i = 0; i < records.length; i += BATCH_SIZE){
+      const batch = records.slice(i, i + BATCH_SIZE);
+      const { error } = await supabaseClient.from(TABLE_NAME).insert(batch);
+      if (error) throw error;
+      uploaded += batch.length;
+      setProgress(Math.round((uploaded / records.length) * 100));
+      log(`  ${uploaded} / ${records.length} 건 업로드 완료`);
+    }
+
+    log(`✅ 전체 업로드 완료: ${uploaded}건`);
+  }catch(err){
+    console.error(err);
+    log(`❌ 오류 발생: ${err.message || err}`);
+  }finally{
+    uploadBtn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
