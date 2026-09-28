@@ -2432,23 +2432,47 @@ function normalizeHeaders(value){
   return [];
 }
 
+// 헤더 표기 차이(송장번호/운송장번호, 띄어쓰기 등)를 표준 라벨로 통일
+const STANDARD_LABEL_BY_KEY = Object.fromEntries(
+  Object.entries(HEADER_MAP).map(([label, key]) => [key, label])
+);
+function canonicalHeader(header){
+  const key = resolveHeaderKey(header);
+  return (key && STANDARD_LABEL_BY_KEY[key]) || String(header).trim();
+}
+
 function buildOriginalMatrix(rows, batchMap){
   const headers = [];
   const seen = new Set();
 
-  rows.forEach(row => {
-    const batchHeaders = normalizeHeaders(batchMap.get(String(row.batch_id))?.headers);
-    const fallbackHeaders = Object.keys(row.raw_data || {});
-    [...batchHeaders, ...fallbackHeaders].forEach(header => {
-      if(!seen.has(header)){
-        seen.add(header);
-        headers.push(header);
-      }
-    });
+  // 1) 표준 양식(A~AB) 순서를 먼저 고정
+  Object.keys(HEADER_MAP).forEach(label => {
+    if(!seen.has(label)){ seen.add(label); headers.push(label); }
   });
 
-  const values = rows.map(row => headers.map(header => row.raw_data?.[header] ?? ""));
-  return { headers, values };
+  // 2) 행마다 원본 헤더를 표준 이름으로 바꿔서 값 정리
+  const normalizedRows = rows.map(row => {
+    const batchHeaders = normalizeHeaders(batchMap.get(String(row.batch_id))?.headers);
+    const fallbackHeaders = Object.keys(row.raw_data || {});
+    const out = {};
+    [...batchHeaders, ...fallbackHeaders].forEach(orig => {
+      const std = canonicalHeader(orig);
+      if(!seen.has(std)){ seen.add(std); headers.push(std); } // 표준에 없는 열은 뒤에 추가
+      const val = row.raw_data?.[orig];
+      // 같은 표준 열로 합쳐질 때 빈 값이 기존 값을 덮어쓰지 않도록
+      if(val !== null && val !== undefined && val !== "" ) out[std] = val;
+      else if(!(std in out)) out[std] = "";
+    });
+    return out;
+  });
+
+  // 3) 표준 열 중 전체가 비어 있는 열은 제외 (원하면 이 부분 삭제)
+  const usedHeaders = headers.filter(h =>
+    normalizedRows.some(r => r[h] !== undefined && r[h] !== "")
+  );
+
+  const values = normalizedRows.map(r => usedHeaders.map(h => r[h] ?? ""));
+  return { headers: usedHeaders, values };
 }
 
 function cleanClipboardCell(value){
