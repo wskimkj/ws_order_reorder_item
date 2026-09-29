@@ -34,7 +34,6 @@
     min-height:100vh;
     padding:28px clamp(16px, 2vw, 32px) 80px;
   }
-  /* 데스크톱 화면을 넓게 사용하도록 기존 960px 제한을 완화 */
   .wrap{
     width:100%;
     max-width:1600px;
@@ -47,7 +46,6 @@
   }
   h1{font-size:26px;margin:0 0 4px;font-weight:800;}
   header p{margin:0;color:var(--ink-soft);font-size:14px;}
-
   .panel{
     background:var(--panel);
     border:1px solid var(--line);
@@ -55,7 +53,6 @@
     padding:20px;
     margin-bottom:20px;
   }
-
   .top-header{
     display:flex;
     align-items:flex-start;
@@ -65,8 +62,6 @@
   }
   .header-title{min-width:250px;}
   .user-area{display:flex;align-items:center;gap:10px;justify-content:flex-end;}
-
-  /* 최근 업로드 정보와 조회 필터를 한 줄에 배치 */
   .latest-upload{
     display:grid;
     grid-template-columns:minmax(260px,1fr) minmax(650px,auto);
@@ -101,7 +96,6 @@
     border-color:#e7c9bd;
     color:var(--danger);
   }
-
   .header-filter{
     min-width:0;
     padding:0;
@@ -179,7 +173,6 @@
     text-align:right;
   }
   .filter-meta.error{color:var(--danger);}
-
   @media (max-width:1180px){
     .latest-upload{grid-template-columns:1fr;align-items:stretch;}
     .header-filter-row{justify-content:flex-start;}
@@ -198,7 +191,6 @@
     .header-filter-actions{flex:1 1 100%;}
     .header-filter-actions button{flex:1 1 auto;}
   }
-
   .search-row{display:flex;gap:10px;flex-wrap:wrap;}
   .search-row input[type="text"]{
     flex:1 1 260px;
@@ -210,7 +202,6 @@
     transition:border-color .15s;
   }
   .search-row input[type="text"]:focus{border-color:var(--accent);}
-
   button{
     padding:12px 20px;
     background:var(--accent);
@@ -229,7 +220,6 @@
     color:var(--accent);
     border:1px solid var(--line);
   }
-
   .meta{
     display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
     margin:14px 0 8px;font-size:13px;color:var(--ink-soft);
@@ -247,7 +237,6 @@
     background:var(--accent-soft);color:var(--accent);font-size:13px;border:1px solid #cdded7;
   }
   .notice.error{background:#fdf5f2;color:var(--danger);border-color:#e7c9bd;}
-
   table{
     width:100%;
     min-width:1320px;
@@ -275,7 +264,6 @@
   }
   tbody tr:last-child td{border-bottom:none;}
   tbody tr:hover{background:#fafbfc;}
-
   .state{
     padding:40px 20px;
     text-align:center;
@@ -288,16 +276,13 @@
   .state.error{color:var(--danger);border-color:#e7c9bd;background:#fdf5f2;}
   #resultArea{transition:opacity .12s ease;}
   #resultArea.result-loading{opacity:.52;pointer-events:none;}
-
   .table-scroll{
     width:100%;
     overflow-x:auto;
   }
-
   button.danger{background:var(--danger);color:#fff;}
   button.danger.ghost{background:transparent;color:var(--danger);border:1px solid #e7c9bd;}
   .admin-badge{display:inline-flex;align-items:center;padding:3px 7px;border-radius:999px;background:#fdf5f2;color:var(--danger);font-size:11px;font-weight:700;}
-
   .pagination{
     display:none;
     align-items:center;
@@ -317,10 +302,7 @@
     font-size:13px;
   }
   .pagination-info strong{color:var(--ink);}
-
   footer{margin-top:30px;font-size:12px;color:var(--ink-soft);text-align:center;}
-
-  /* 업로드 패널 */
   #uploadPanel{display:none;}
   .drop{
     border:2px dashed var(--line); border-radius:var(--radius);
@@ -340,7 +322,6 @@
   }
   .progress{height:8px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:14px;display:none;}
   .progress .bar{height:100%;width:0%;background:var(--accent);transition:width .2s;}
-
   .upload-validation-error{
     display:none;
     margin-top:14px;
@@ -372,8 +353,6 @@
     word-break:break-word;
     font-family:"SFMono-Regular",Menlo,Consolas,monospace;
   }
-
-
   .template-download-link{
     display:inline-flex;align-items:center;justify-content:center;
     min-height:34px;padding:7px 11px;border-radius:8px;
@@ -386,15 +365,11 @@
     background:var(--accent-soft);font-size:13px;line-height:1.65;color:var(--ink);
   }
   .upload-check-summary strong{color:var(--accent);}
-
-  /* 출고일 누락 시 날짜 선택 모달 */
   .date-modal-backdrop{
     position:fixed;inset:0;z-index:1000;
     display:none;align-items:center;justify-content:center;
     padding:20px;background:rgba(15,26,23,.42);
   }
-
-  /* 업로드 기록 탭 */
   .history-panel{display:none;}
   .history-panel.open{display:block;}
   .history-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
@@ -414,7 +389,6 @@
   .history-table{min-width:760px;}
   .history-table th,.history-table td{white-space:nowrap;}
   .history-empty{padding:32px 16px;text-align:center;color:var(--ink-soft);border:1px dashed var(--line);border-radius:10px;background:#fff;}
-
   .date-modal-backdrop.open{display:flex;}
   .date-modal{
     width:min(440px,100%);background:#fff;border:1px solid var(--line);
@@ -434,8 +408,6 @@
   .date-modal input[type="date"]:focus{border-color:var(--accent);}
   .date-modal-error{min-height:18px;margin-top:7px;color:var(--danger);font-size:12px;}
   .date-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px;}
-
-  /* 중복 확인 팝업 */
   .duplicate-modal-backdrop{
     position:fixed;inset:0;z-index:9999;display:none;
     align-items:center;justify-content:center;padding:20px;
@@ -501,9 +473,6 @@
     .duplicate-product,.duplicate-row-status{grid-column:2;}
     .duplicate-row-status{text-align:left;}
   }
-
-
-  /* 관리자 운영 도구 */
   .admin-tools-panel{
     display:none;
     background:#fff;
@@ -536,9 +505,6 @@
     .admin-tools-actions{width:100%;}
     .admin-tools-actions button{flex:1 1 calc(50% - 4px);}
   }
-
-
-  /* 결과 테이블: 구글시트형 헤더 필터 / 열 너비 조절 */
   .result-table{table-layout:fixed;min-width:1500px;}
   .result-table th{position:relative;overflow:visible;padding:0;vertical-align:middle;height:42px;}
   .sheet-head{display:flex;align-items:center;gap:4px;height:42px;padding:0 8px;white-space:nowrap;}
@@ -578,8 +544,6 @@
   .sheet-filter-footer{display:flex;justify-content:flex-end;gap:7px;padding:9px;border-top:1px solid var(--line);background:#fafbfc;}
   .sheet-filter-footer button{padding:7px 11px;font-size:12px;}
   .sheet-filter-footer .cancel{background:#fff;color:var(--ink-soft);border:1px solid var(--line);}
-
-  /* 상단 UI 정리 */
   .top-header{align-items:center;margin-bottom:16px;}
   .user-area{flex-wrap:wrap;}
   .latest-upload{margin:0 0 16px;grid-template-columns:minmax(320px,1fr) minmax(620px,auto);}
@@ -595,9 +559,6 @@
     .search-row{grid-template-columns:1fr;}
     .search-row button{width:100%;}
   }
-
-
-  /* PATCH-001 · 상단 UI를 요청 이미지처럼 컴팩트하게 정리 */
   body{padding:18px clamp(14px,2vw,28px) 70px;}
   .wrap{max-width:1800px;}
   .compact-header{align-items:flex-start;margin-bottom:10px;min-height:58px;}
@@ -609,7 +570,6 @@
   .header-right-zone .user-area{min-height:28px;}
   .header-quick-actions{display:flex;gap:8px;justify-content:flex-end;}
   .header-quick-actions button{height:42px;padding:0 18px;font-size:13px;background:#fff;}
-
   .top-control-shell{
     margin-bottom:18px;
     padding:0 12px 10px;
@@ -640,13 +600,11 @@
   .top-control-shell .header-filter select{height:38px;font-size:12px;}
   .top-control-shell .header-filter-actions button{height:38px;min-height:38px;padding:0 11px;font-size:12px;}
   .top-control-shell .filter-meta{margin-top:3px;min-height:12px;font-size:9px;}
-
   @media(max-width:1120px){
     .top-control-row{grid-template-columns:1fr;gap:10px;}
     .top-control-shell .header-filter-row{justify-content:flex-start;}
     .top-control-shell .filter-meta{text-align:left;}
   }
-  /* PATCH-002: 최근 업로드 상태를 제목 아래로 이동 */
   .header-latest-upload{
     display:block;
     margin:7px 0 0;
@@ -689,7 +647,6 @@
   .header-latest-upload.error .latest-upload-file,
   .header-latest-upload.error .latest-upload-meta{color:var(--danger);}
   .top-control-shell{padding-top:12px;}
-
   @media(max-width:720px){
     .compact-header{flex-direction:column;}
     .header-latest-upload .latest-upload-main{flex-wrap:wrap;}
@@ -701,9 +658,6 @@
     .top-control-shell .latest-upload-meta{grid-column:1/-1;justify-self:start;margin-left:0;}
     .compact-search-row{grid-template-columns:1fr 64px;}
   }
-
-
-  /* 상단 북마크형 업무 메뉴 */
   .workspace-tabbar{
     position:sticky;
     top:0;
@@ -790,10 +744,6 @@
     .product-frame-shell{min-height:calc(100vh - 82px);}
     #productLookupFrame{height:calc(100vh - 84px);min-height:640px;}
   }
-
-
-
-  /* 재입고 조회 · 주문조회 디자인 시스템 공통 사용 */
   #restockWorkspace{
     width:100%;
     max-width:1800px;
@@ -956,7 +906,6 @@
   }
   #restockResultArea{transition:opacity .12s ease;}
   #restockResultArea.result-loading{opacity:.52;pointer-events:none;}
-
   @media(max-width:980px){
     .restock-search-grid{grid-template-columns:1fr 1fr;}
     #restockSearchButton{grid-column:2;}
@@ -968,7 +917,6 @@
     .restock-status-line{text-align:left;}
     .restock-header-meta{justify-content:flex-start;}
   }
-
 </style>
 </head>
 <body>
@@ -1036,7 +984,6 @@
     </div>
   </section>
 
-  <!-- 업로드 패널 (버튼 클릭 시 노출) -->
   <div class="panel" id="uploadPanel">
     <h2 style="font-size:16px;margin:0 0 4px;">주문 데이터 업로드</h2>
     <p style="margin:0 0 10px;color:var(--ink-soft);font-size:13px;">엑셀 파일(.xlsx)을 업로드하면 모든 시트의 상단 10개 행을 검사하여 주문 데이터 헤더를 자동으로 찾습니다. 시트명과 시트 개수는 상관없습니다.</p>
@@ -1050,7 +997,6 @@
       <div class="filename" id="fileName"></div>
       <input type="file" id="fileInput" accept=".xlsx,.xls" />
     </div>
-
 
     <div class="actions">
       <button id="uploadBtn" disabled>업로드 시작</button>
@@ -1266,8 +1212,6 @@ const BATCH_TABLE_NAME = "import_batches";
 const FILTER_OPTIONS_RPC = "get_order_filter_options";
 const DOWNLOAD_PAGE_SIZE = 1000;
 
-// 검색 대상 컬럼: B 주문번호(사방넷), C 주문번호(쇼핑몰), E 수령인,
-// G 운송장번호, H 받는분연락처, Z/AA 주문자연락처
 const SEARCH_COLUMNS = [
   "order_no_sabangnet",
   "order_no_mall",
@@ -1278,14 +1222,12 @@ const SEARCH_COLUMNS = [
   "orderer_phone2",
 ];
 
-// 전화번호 형식 차이를 보완해서 추가 검색할 컬럼
 const PHONE_SEARCH_COLUMNS = [
   "receiver_phone",
   "orderer_phone1",
   "orderer_phone2",
 ];
 
-// 숫자로만 검색할 때는 이름 컬럼 검색을 제외하여 불필요한 전체 스캔을 줄입니다.
 const NUMERIC_SEARCH_COLUMNS = [
   "order_no_sabangnet",
   "order_no_mall",
@@ -1293,7 +1235,6 @@ const NUMERIC_SEARCH_COLUMNS = [
   ...PHONE_SEARCH_COLUMNS,
 ];
 
-// 결과 테이블에 보여줄 컬럼: A B C D E F G H L M N T V
 const DISPLAY_COLUMNS = [
   "shipped_date",
   "order_no_sabangnet",
@@ -1310,7 +1251,6 @@ const DISPLAY_COLUMNS = [
   "option_collected",
 ];
 
-// 결과 테이블 헤더에 보여줄 한글 라벨
 const LABELS = {
   shipped_date: "출고일",
   order_no_sabangnet: "주문번호(사방넷)",
@@ -1327,12 +1267,8 @@ const LABELS = {
   option_collected: "옵션(수집)",
 };
 
-// 한 번에 가져올 최대 결과 수
-// 한 페이지 표시량을 줄여 네트워크 응답과 테이블 렌더링을 가볍게 합니다.
 const PAGE_SIZE = 100;
 
-// 엑셀 헤더 텍스트 -> DB 컬럼명 매핑 (업로드용)
-// 실제 파일마다 헤더 표기가 조금씩 다를 수 있어 여러 변형을 함께 매핑해둡니다.
 const HEADER_MAP = {
   "출고일": "shipped_date",
   "주문번호(사방넷)": "order_no_sabangnet",
@@ -1368,8 +1304,6 @@ const HEADER_MAP = {
   "미출고": "not_shipped",
 };
 
-
-// 외부 발주서마다 생길 수 있는 헤더 표기 차이를 표준 컬럼명으로 통합합니다.
 const HEADER_ALIASES = {
   shipped_date: ["출고일", "출고날짜", "출고일자", "배송일", "배송일자", "발송일", "발송일자"],
   order_no_sabangnet: ["주문번호(사방넷)", "사방넷주문번호", "사방넷 주문번호"],
@@ -1421,7 +1355,6 @@ function inspectWorkbookForOrderSheet(workbook){
       const uniqueKeys = new Set(keys.filter(Boolean));
       const hasOrderId = uniqueKeys.has("order_no_sabangnet") || uniqueKeys.has("order_no_mall");
       const hasCoreData = uniqueKeys.has("receiver_name") || uniqueKeys.has("tracking_no") || uniqueKeys.has("product_name");
-      // 주문 식별자와 주문 데이터 컬럼이 함께 있어야 후보로 인정합니다.
       if(!hasOrderId || !hasCoreData) continue;
       let score = uniqueKeys.size * 10;
       if(uniqueKeys.has("shipped_date")) score += 50;
@@ -1438,7 +1371,6 @@ const NUMERIC_KEYS = new Set(["quantity", "payment_amount"]);
 const HEADER_SCAN_ROWS = 10;
 const BATCH_SIZE = 200;
 const ADMIN_ROLE = "admin";
-// Supabase 메타데이터에 role이 아직 설정되지 않은 운영 관리자 계정도 허용합니다.
 const ADMIN_EMAILS = new Set([
   "kj.kim@whitesands.co.kr",
 ]);
@@ -1501,7 +1433,6 @@ async function initializeApp(){
     currentSession = session;
     renderSignedInUser(session);
 
-    // 최근 업로드/필터 옵션은 화면 사용을 막지 않고 백그라운드에서 병렬 로드합니다.
     void loadLatestUpload();
     void loadFilterOptions();
     if(uploadHistoryPanel.classList.contains("open")) void loadUploadHistory();
@@ -1519,7 +1450,6 @@ async function initializeApp(){
 
 initializeApp();
 
-/* ---------------- 최근 업로드 표시 ---------------- */
 const latestUpload = document.getElementById("latestUpload");
 const latestUploadFile = document.getElementById("latestUploadFile");
 const latestUploadMeta = document.getElementById("latestUploadMeta");
@@ -1578,7 +1508,6 @@ async function loadLatestUpload(){
   }
 }
 
-/* ---------------- 상단 상세 조건 필터 ---------------- */
 const filterStartDate = document.getElementById("filterStartDate");
 const filterEndDate = document.getElementById("filterEndDate");
 const filterMall = document.getElementById("filterMall");
@@ -1594,7 +1523,7 @@ let activeCriteria = null;
 let activeTotalCount = 0;
 
 const FILTER_OPTIONS_CACHE_KEY = "ws-order-filter-options-v2";
-const FILTER_OPTIONS_CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 하루 1회 업로드 기준 24시간 유지
+const FILTER_OPTIONS_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
 function readFilterOptionsCache(){
   try{
@@ -1612,7 +1541,6 @@ function writeFilterOptionsCache(data){
   try{
     sessionStorage.setItem(FILTER_OPTIONS_CACHE_KEY, JSON.stringify({ savedAt:Date.now(), data:data || [] }));
   }catch{
-    // 저장 공간 제한 등으로 캐시에 실패해도 조회 기능은 그대로 유지합니다.
   }
 }
 
@@ -1784,7 +1712,7 @@ function describeCriteria(criteria){
     parts.push(`${formatKoreanDate(range.end)} 이전`);
   }
   if(criteria.mall) parts.push(`쇼핑몰 ${criteria.mall}`);
-  if(criteria.keyword) parts.push(`검색어 “${criteria.keyword}”`);
+  if(criteria.keyword) parts.push(`검색어 "${criteria.keyword}"`);
   return parts.join(" · ") || "전체 데이터";
 }
 
@@ -1911,7 +1839,6 @@ async function downloadFilteredOriginalRows(){
 
 downloadFilteredBtn.addEventListener("click", downloadFilteredOriginalRows);
 
-/* ---------------- 검색 영역 ---------------- */
 const searchInput = document.getElementById("searchInput");
 const searchBtn = document.getElementById("searchBtn");
 const resultArea = document.getElementById("resultArea");
@@ -1937,12 +1864,8 @@ let currentRows = [];
 const selectedRowIds = new Set();
 let noticeTimer = null;
 
-// 조회 단계에서는 화면 표시 컬럼과 식별자만 가져옵니다.
-// 원본 전체 행(raw_data)은 사용자가 복사/다운로드할 때 선택된 행만 별도로 조회합니다.
 const SEARCH_SELECT_COLUMNS = ["id", "batch_id", ...DISPLAY_COLUMNS].join(",");
 
-// 민감한 주문 데이터는 브라우저 저장소에 남기지 않고 현재 탭 메모리에만 캐시합니다.
-// 평소에는 24시간 재사용하되 업로드·삭제 등 DB 변경 직후 즉시 초기화합니다.
 const SEARCH_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 const SEARCH_CACHE_MAX_ENTRIES = 24;
 const SEARCH_QUERY_TIMEOUT_MS = 20000;
@@ -1978,7 +1901,6 @@ function getCachedSearchResult(criteria, page){
     searchResultCache.delete(key);
     return null;
   }
-  // 최근 사용한 항목을 Map 뒤쪽으로 이동해 간단한 LRU처럼 동작시킵니다.
   searchResultCache.delete(key);
   searchResultCache.set(key, cached);
   return cached.value;
@@ -2013,7 +1935,6 @@ function broadcastDataChange(reason="data-change"){
       nonce:Math.random().toString(36).slice(2),
     }));
   }catch{
-    // 시크릿 모드나 저장소 차단 환경에서도 현재 탭 갱신은 정상 동작합니다.
   }
 }
 
@@ -2023,12 +1944,10 @@ function clearAllClientCaches(options={}){
   try{
     sessionStorage.removeItem(FILTER_OPTIONS_CACHE_KEY);
   }catch{
-    // 저장소 접근 실패는 무시하고 메모리 캐시만 초기화합니다.
   }
   if(broadcast) broadcastDataChange(reason);
 }
 
-// 같은 브라우저에서 여러 탭을 열어둔 경우 한 탭의 업로드·삭제를 다른 탭에도 즉시 반영합니다.
 window.addEventListener("storage", event => {
   if(event.key !== DATA_CHANGE_SIGNAL_KEY || !event.newValue) return;
 
@@ -2432,47 +2351,23 @@ function normalizeHeaders(value){
   return [];
 }
 
-// 헤더 표기 차이(송장번호/운송장번호, 띄어쓰기 등)를 표준 라벨로 통일
-const STANDARD_LABEL_BY_KEY = Object.fromEntries(
-  Object.entries(HEADER_MAP).map(([label, key]) => [key, label])
-);
-function canonicalHeader(header){
-  const key = resolveHeaderKey(header);
-  return (key && STANDARD_LABEL_BY_KEY[key]) || String(header).trim();
-}
-
 function buildOriginalMatrix(rows, batchMap){
   const headers = [];
   const seen = new Set();
 
-  // 1) 표준 양식(A~AB) 순서를 먼저 고정
-  Object.keys(HEADER_MAP).forEach(label => {
-    if(!seen.has(label)){ seen.add(label); headers.push(label); }
-  });
-
-  // 2) 행마다 원본 헤더를 표준 이름으로 바꿔서 값 정리
-  const normalizedRows = rows.map(row => {
+  rows.forEach(row => {
     const batchHeaders = normalizeHeaders(batchMap.get(String(row.batch_id))?.headers);
     const fallbackHeaders = Object.keys(row.raw_data || {});
-    const out = {};
-    [...batchHeaders, ...fallbackHeaders].forEach(orig => {
-      const std = canonicalHeader(orig);
-      if(!seen.has(std)){ seen.add(std); headers.push(std); } // 표준에 없는 열은 뒤에 추가
-      const val = row.raw_data?.[orig];
-      // 같은 표준 열로 합쳐질 때 빈 값이 기존 값을 덮어쓰지 않도록
-      if(val !== null && val !== undefined && val !== "" ) out[std] = val;
-      else if(!(std in out)) out[std] = "";
+    [...batchHeaders, ...fallbackHeaders].forEach(header => {
+      if(!seen.has(header)){
+        seen.add(header);
+        headers.push(header);
+      }
     });
-    return out;
   });
 
-  // 3) 표준 열 중 전체가 비어 있는 열은 제외 (원하면 이 부분 삭제)
-  const usedHeaders = headers.filter(h =>
-    normalizedRows.some(r => r[h] !== undefined && r[h] !== "")
-  );
-
-  const values = normalizedRows.map(r => usedHeaders.map(h => r[h] ?? ""));
-  return { headers: usedHeaders, values };
+  const values = rows.map(row => headers.map(header => row.raw_data?.[header] ?? ""));
+  return { headers, values };
 }
 
 function cleanClipboardCell(value){
@@ -2632,8 +2527,6 @@ function buildKeywordOrFilter(keyword){
   return [...filters].join(",");
 }
 
-// 주문번호·운송장·전화번호처럼 길이가 긴 식별자는 먼저 exact 검색합니다.
-// DB 인덱스를 바로 사용할 수 있어 일반 contains 검색보다 훨씬 빠릅니다.
 function shouldUseExactFirst(keyword){
   const value = String(keyword || "").trim();
   const digits = value.replace(/\D/g, "");
@@ -2682,7 +2575,6 @@ async function fetchSearchPage(criteria, page, options={}){
   const cursorStore = getCursorStore(criteria);
   const cursor = safePage > 1 ? cursorStore.get(safePage) : null;
   if(safePage > 1 && cursor !== undefined && cursor !== null){
-    // OFFSET 대신 마지막 id 기준으로 다음 페이지를 조회해 뒤쪽 페이지도 일정하게 빠르게 유지합니다.
     query = query.lt("id", cursor).limit(PAGE_SIZE + 1);
   }else{
     query = query.range(from, to);
@@ -2745,7 +2637,6 @@ async function runSearch(page=1, options={}){
       signal:controller.signal,
     });
 
-    // 식별자 exact 검색 결과가 없을 때만 기존의 부분 일치 검색으로 한 번 확장합니다.
     if(keywordMode === "exact" && safePage === 1 && !result.pageRows.length){
       keywordMode = "broad";
       queryCriteria = { ...baseCriteria, keywordMode };
@@ -2846,8 +2737,6 @@ nextPageBtn.addEventListener("click", () => {
   if(hasNextPage) runSearch(currentPage + 1);
 });
 
-// 체크된 행이 있을 때 Ctrl+C 또는 Cmd+C를 누르면 원본 전체 행을 복사합니다.
-// 검색창/입력창을 사용 중이거나 화면에서 텍스트를 드래그 선택한 경우에는 기본 복사를 유지합니다.
 document.addEventListener("keydown", (e) => {
   const isCopyShortcut = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "c";
   if(!isCopyShortcut || selectedRowIds.size === 0) return;
@@ -2866,8 +2755,6 @@ document.addEventListener("keydown", (e) => {
   copySelectedOriginalRows();
 });
 
-
-/* ---------------- 중복 방지 / 관리자 삭제 ---------------- */
 function normalizeDedupeValue(value){
   return String(value ?? "").trim().replace(/\s+/g, " ").toLowerCase();
 }
@@ -2967,7 +2854,6 @@ async function removeDuplicateRecords(records){
     noIdentifier,
   };
 }
-
 
 const duplicateModalBackdrop = document.getElementById("duplicateModalBackdrop");
 const duplicateInFileCount = document.getElementById("duplicateInFileCount");
@@ -3268,7 +3154,6 @@ async function deleteRowsWithoutTracking(){
     const ok = confirm(`운송장번호가 비어 있거나 '-'인 주문 ${targetCount.toLocaleString("ko-KR")}건을 삭제할까요?\n삭제 후에는 되돌릴 수 없습니다.`);
     if(!ok) return;
 
-    // PostgREST delete는 필터가 반드시 필요하며, 세 조건을 OR로 적용합니다.
     const { error } = await supabaseClient
       .from(TABLE_NAME)
       .delete()
@@ -3308,8 +3193,6 @@ deleteMissingTrackingBtn?.addEventListener("click", deleteRowsWithoutTracking);
 cleanupDuplicatesBtn?.addEventListener("click", cleanupDuplicateRows);
 refreshAdminSessionBtn?.addEventListener("click", refreshAdminSession);
 
-
-/* ---------------- 업로드 기록 탭 ---------------- */
 const toggleHistoryBtn = document.getElementById("toggleHistoryBtn");
 const uploadHistoryPanel = document.getElementById("uploadHistoryPanel");
 const uploadHistoryArea = document.getElementById("uploadHistoryArea");
@@ -3348,7 +3231,6 @@ function renderUploadHistory(rows){
       </tbody>
     </table>`;
 }
-
 
 async function downloadUploadBatch(batchId, filename, button){
   if(!batchId) return;
@@ -3507,7 +3389,6 @@ uploadHistoryArea.addEventListener("click", event => {
   deleteUploadBatch(deleteButton.dataset.deleteBatchId, deleteButton.dataset.deleteBatchName || "업로드 파일");
 });
 
-/* ---------------- 업로드 영역 (버튼으로 토글) ---------------- */
 const toggleUploadBtn = document.getElementById("toggleUploadBtn");
 const uploadPanel = document.getElementById("uploadPanel");
 const dropZone = document.getElementById("dropZone");
@@ -3726,7 +3607,6 @@ function showUploadCheckSummary({sheetName, headerRowNumber, rowCount, headers})
   uploadValidationError.style.display = "block";
 }
 
-
 function pad2(value){
   return String(value).padStart(2, "0");
 }
@@ -3743,9 +3623,6 @@ function makeIsoDate(year, month, day){
   return `${y}-${pad2(m)}-${pad2(d)}`;
 }
 
-// 출고일은 반드시 4자리 연도가 포함된 실제 날짜여야 합니다.
-// 허용 예: 2026-07-21, 2026.7.21, 2026/07/21, 엑셀 날짜 셀
-// 거부 예: 7/21, 07-21, 7월 21일, 잘못된 날짜
 function normalizeShippedDate(value){
   if(value === null || value === undefined || String(value).trim() === ""){
     return { valid:false, reason:"blank", normalized:null, suffix:"", original:"" };
@@ -3764,7 +3641,6 @@ function normalizeShippedDate(value){
 
   const text = String(value).trim();
 
-  // 4자리 연도가 있는 날짜: 날짜 뒤 메모를 분리해 보존합니다.
   const fullMatch = text.match(/^(\d{4})\s*[-./년]\s*(\d{1,2})\s*[-./월]\s*(\d{1,2})(?:\s*일)?(.*)$/);
   if(fullMatch){
     const normalized = makeIsoDate(fullMatch[1], fullMatch[2], fullMatch[3]);
@@ -3772,7 +3648,6 @@ function normalizeShippedDate(value){
     return { valid:true, reason:null, normalized, suffix:fullMatch[4] || "", original:text };
   }
 
-  // 연도 없이 월/일만 기록된 경우: 예) 7/16 발송후 취소, 07-16 취소
   const monthDayMatch = text.match(/^(\d{1,2})\s*[-./월]\s*(\d{1,2})(?:\s*일)?(.*)$/);
   if(monthDayMatch){
     const month = Number(monthDayMatch[1]);
@@ -3832,11 +3707,9 @@ uploadBtn.addEventListener("click", async () => {
 
     log(`총 ${dataRows.length.toLocaleString("ko-KR")}건의 데이터 확인됨`);
 
-    // 검색/조회용으로 미리 알고 있는 컬럼만 별도 매핑 (모르는 열이어도 raw_data에는 전부 저장됨)
     const colMap = headerRow.map(resolveHeaderKey);
     const detectedKeys = [...new Set(colMap.filter(Boolean))];
 
-    // 출고일 헤더 자체가 없으면 임의 생성하지 않고 표준 양식을 안내합니다.
     const shippedDateIndex = colMap.findIndex(key => key === "shipped_date");
     if(shippedDateIndex === -1){
       log("❌ 필수 컬럼 '출고일'을 찾지 못했습니다.");
@@ -3852,8 +3725,6 @@ uploadBtn.addEventListener("click", async () => {
       headers: detectedKeys.slice(0, 10),
     });
 
-    // 출고일 값의 빈값·연도 누락·잘못된 날짜 형식을 업로드 전에 검사합니다.
-    // raw_data에는 날짜 뒤 메모를 보존하고, 검색용 shipped_date에는 날짜만 저장합니다.
     const shippedDateRawOverrides = new WeakMap();
     {
       const checkedRows = dataRowEntries.map(entry => ({
@@ -3864,7 +3735,6 @@ uploadBtn.addEventListener("click", async () => {
       const yearMissingRows = checkedRows.filter(item => item.dateCheck.reason === "year_missing");
       const invalidRows = checkedRows.filter(item => item.dateCheck.reason === "invalid");
 
-      // 월/일과 뒤 메모는 유지하고 사용자가 입력한 연도만 붙입니다.
       if(yearMissingRows.length){
         const preview = yearMissingRows.slice(0, 10).map(item => `${item.excelRow}행`).join(", ")
           + (yearMissingRows.length > 10 ? ` 외 ${yearMissingRows.length - 10}건` : "");
@@ -3896,7 +3766,6 @@ uploadBtn.addEventListener("click", async () => {
         log("  - 날짜 뒤 메모는 원본 그대로 유지됩니다.");
       }
 
-      // 빈값 또는 날짜 자체를 해석할 수 없는 값은 전체 날짜를 선택해 교체합니다.
       const remainingProblemRows = [...blankRows, ...invalidRows];
       if(remainingProblemRows.length){
         const preview = remainingProblemRows.slice(0, 10).map(item => `${item.excelRow}행`).join(", ")
@@ -3923,7 +3792,6 @@ uploadBtn.addEventListener("click", async () => {
         log(`✅ 출고일 오류 자동 교체 완료: ${selectedDate} · ${remainingProblemRows.length.toLocaleString("ko-KR")}건`);
       }
 
-      // 정상 날짜는 날짜만 DB 검색 컬럼에 저장하고 뒤 메모는 raw_data에 유지합니다.
       checkedRows.forEach(({ row, dateCheck }) => {
         if(!dateCheck.valid) return;
         row[shippedDateIndex] = dateCheck.normalized;
@@ -3937,19 +3805,18 @@ uploadBtn.addEventListener("click", async () => {
       log(`ℹ 별도 컬럼 매핑은 없지만 원본 그대로 저장되는 열: ${unmapped.join(", ")}`);
     }
 
-    // 각 행: raw_data(모든 열 원본 그대로) + 검색용 매핑 컬럼을 함께 준비
     let records = dataRows.map(r => {
       const rec = {};
       const raw = {};
 
       headerRow.forEach((h, i) => {
-        if (!h) return; // 헤더 없는 빈 열은 건너뜀
+        if (!h) return;
         let val = r[i];
         if (val === undefined) val = null;
         if(i === shippedDateIndex && shippedDateRawOverrides.has(r)){
           val = shippedDateRawOverrides.get(r);
         }
-        raw[h] = val === null ? null : String(val); // 날짜 뒤 메모를 포함한 원본 표현 보존
+        raw[h] = val === null ? null : String(val);
       });
       rec.raw_data = raw;
 
@@ -4045,7 +3912,6 @@ uploadBtn.addEventListener("click", async () => {
 
     log(`✅ 전체 업로드 완료: ${uploaded}건 · 신규 ${dedupeResult.records.length.toLocaleString("ko-KR")}건 + 선택 중복 ${selectedDuplicateRecords.length.toLocaleString("ko-KR")}건`);
 
-    // 업로드가 성공한 순간 24시간 캐시를 즉시 폐기하고 최신 DB 기준으로 다시 구성합니다.
     const pageToRefresh = activeCriteria ? (currentPage || 1) : null;
     clearAllClientCaches({ broadcast:true, reason:"file-uploaded" });
     await Promise.all([
